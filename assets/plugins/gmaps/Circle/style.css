@@ -1,0 +1,12 @@
+#map {
+  height: 90%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html,
+.mapview {
+  height: 90%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}

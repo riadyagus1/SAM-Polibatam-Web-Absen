@@ -38,7 +38,7 @@ if($result->status == "success") {
 	// $_SESSION['jabatan'] = $jabatan;
 
     include 'koneksi.php';
-    $query="INSERT INTO `tbl_user` (`nim_nik_unit`, `username`, `name`, `email`, `jabatan`, `alamat`, `foto_profile`, `address_latitude`, `address_longitude`) VALUES ('$nim_nik_unit', '$username', '$nama', '$email', '$jabatan', '', 'http://absen.polibatam.ac.id/profile_photos/people.png', NULL, NULL)";
+    $query="INSERT INTO `tbl_user` (`nim_nik_unit`, `username`, `name`, `email`, `jabatan`, `alamat`, `foto_profile`, `address_latitude`, `address_longitude`) VALUES ('$nim_nik_unit', '$username', '$nama', '$email', '$jabatan', '', 'http://absen.polibatam.ac.id/sam_api/Image/profile_photos/220315.PNG', NULL, NULL)";
     mysqli_query($koneksi, $query);
 
     header('Location: Home.php');

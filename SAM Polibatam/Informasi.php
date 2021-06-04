@@ -195,9 +195,9 @@ if(!isset($_SESSION['login'])){
                                 <img src="../assets/images/logoSAM.png" alt="Logo SAM Polibatam" style="width:250px;height:250px;display: block; margin-left: auto; margin-right: auto;"><br>
                                 <h3 align="center">APA ITU SAM POLIBATAM ?</h3>
 
-                                <p align="center">SAM Polibatam (Sistem Absensi Mobile) merupakan sebuah aplikasi yg <br>berfungsi bagi para karyawan Politeknik Negeri Batam untuk  melakukan absensi.</p>
+                                <p align="center">SAM Polibatam (Sistem Absensi Mobile) merupakan sebuah aplikasi yg berfungsi bagi para karyawan Politeknik Negeri Batam untuk  melakukan absensi.</p>
  
-                                <p align="center">Dimana SAM dapat memudahkan karyawan Politeknik Negeri Batam untuk <br> absen ataupun izin hanya melalui ponsel masing-masing karyawan. <br> Kami berharap SAM dapat berjalan sesuai keinginan.</p>
+                                <p align="center">Dimana SAM dapat memudahkan karyawan Politeknik Negeri Batam untuk absen ataupun izin hanya melalui ponsel masing-masing karyawan. Kami berharap SAM dapat berjalan sesuai keinginan.</p>
                             </div>
                         </div>
                     </div>

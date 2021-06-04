@@ -49,17 +49,14 @@ if(!isset($_SESSION['login'])){
         function taruhMarker(peta, posisiTitik){
             
             if( marker ){
-              // pindahkan marker
               marker.setPosition(posisiTitik);
             } else {
-              // buat marker baru
               marker = new google.maps.Marker({
                 position: posisiTitik,
                 map: peta
               });
             }
-          
-             // isi nilai koordinat ke form
+
             document.getElementById("lat").value = posisiTitik.lat();
             document.getElementById("lng").value = posisiTitik.lng();
             
@@ -273,8 +270,8 @@ if(!isset($_SESSION['login'])){
                     </div>
 
                     <div class="form-group">
-                        <button type="submit" value="simpan" class='btn btn-success d-none d-md-inline-block text-white'>Ajukan Lokasi WFH</button>
-                            <a href='Profile.php' class='btn btn-danger d-none d-md-inline-block text-white'>Kembali</a>         
+                        <button type="submit" value="simpan" class='btn btn-success' style="color:white;">Ajukan Lokasi WFH</button>
+                            <a href='Profile.php' class='btn btn-danger' style="color:white;">Kembali</a>         
                     </div>
                 </form>
             </div>

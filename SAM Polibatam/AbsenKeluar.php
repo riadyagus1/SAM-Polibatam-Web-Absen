@@ -24,7 +24,7 @@ $row            = mysqli_fetch_array($tbl_user);
     <meta name="description"
         content="Monster Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>SAM Polibatam | Absen Masuk</title>
+    <title>SAM Polibatam | Absen Keluar</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monster-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" href="../assets/images/favicon100.png">
@@ -205,12 +205,12 @@ $row            = mysqli_fetch_array($tbl_user);
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Absen Masuk</h3>
+                        <h3 class="page-title mb-0 p-0">Absen Keluar</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="Home.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Absen Masuk</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Absen Keluar</li>
                                 </ol>
                             </nav>
                         </div>
@@ -230,7 +230,7 @@ $row            = mysqli_fetch_array($tbl_user);
                   async
                 ></script>
                 <br>
-                <a href="#" class='btn btn-success' style="color:white;">Absen Masuk</a>
+                <a href="#" class='btn btn-success' style="color:white;">Absen Keluar</a>
                 <a href='Home.php' class='btn btn-danger' style="color:white;">Kembali</a> 
             </div>
                 

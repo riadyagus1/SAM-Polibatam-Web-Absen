@@ -281,7 +281,7 @@ $row            = mysqli_fetch_array($tbl_user);
                                     <div class="col-md-6 col-4 align-self-center">
                                         <div class="text-end upgrade-btn">
                                             <a href="LokasiWFH.php"
-                                                class="btn btn-success" style="color:white;">Atur Lokasi WFH</a>
+                                                class="btn btn-success" style="color:white;">Ganti Lokasi WFH</a>
                                         </div>
                                     </div>
                                 </center>

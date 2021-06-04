@@ -273,6 +273,19 @@ if(!isset($_SESSION['login'])){
                             <a href='AbsenKeluar.php' class='btn btn-info' style="color:white;"><i class='fas fa-sign-out-alt'></i> Absen Keluar</a>
                             </div>
                         </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Izin</h4>
+                                <h6 class="card-subtitle"><code>Coming Soon</code></h6>
+                            <a href='#' class='btn btn-info' onclick="lock()" style="color:white;"><i class='fas fa-envelope'></i> Ajukan Izin</a>
+                            <script>
+                            function lock() {
+                              alert("Segera Hadir");
+                            }
+                            </script>
+                            </div>
+                        </div>
                     </div>
                     <!-- column -->
                 </div>

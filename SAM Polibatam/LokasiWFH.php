@@ -263,9 +263,9 @@ if(!isset($_SESSION['login'])){
                     </div>
 
                     <div class="form-group">
-                    <label class="col-md-12 mb-0">Lokasi</label>
+                    <label class="col-md-12 mb-0">Alamat</label>
                         <div class="col-md-12">
-                            <input type="text" id="address" placeholder="Lokasi" name="address" class="form-control ps-0 form-control-line">
+                            <input type="text" id="Alamat" placeholder="Lokasi" name="address" class="form-control ps-0 form-control-line">
                         </div>
                     </div>
 

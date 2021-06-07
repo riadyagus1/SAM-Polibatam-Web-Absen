@@ -278,7 +278,7 @@ if(!isset($_SESSION['login'])){
                             <div class="card-body">
                                 <h4 class="card-title">Izin</h4>
                                 <h6 class="card-subtitle"><code>Coming Soon</code></h6>
-                            <a href='#' class='btn btn-info' onclick="lock()" style="color:white;"><i class='fas fa-envelope'></i> Ajukan Izin</a>
+                            <a href='#' class='btn btn-secondary' onclick="lock()" style="color:white;"><i class='fas fa-envelope'></i> Ajukan Izin</a>
                             <script>
                             function lock() {
                               alert("Segera Hadir");

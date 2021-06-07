@@ -4,25 +4,12 @@
  * @param {number} lng
  * @return {Object}
  */
-
 const createMap = ({ lat, lng }) => {
   return new google.maps.Map(document.getElementById('map'), {
     center: { lat, lng },
     zoom: 15
   });
-
-  const cityCircle = new google.maps.Circle({
-  strokeColor: "#00FF00",
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: "#00FF00",
-  fillOpacity: 0.5,
-  map,
-  center: { lat: 1.118383, lng: 104.04846 }
-  radius: 200,
-});
 };
-
 
 /**
  * Create google maps Marker instance.
@@ -73,7 +60,7 @@ const getPositionErrorMessage = code => {
  * Automatically called by the google maps API once it's loaded.
 */
 function init() {
-  const initialPosition = { lat: 1.118383, lng: 104.04846 };
+  const initialPosition = { lat: 59.32, lng: 17.84 };
   const map = createMap(initialPosition);
   const marker = createMarker({ map, position: initialPosition });
   const $info = document.getElementById('info');
@@ -92,5 +79,3 @@ function init() {
     }
   });
 }
-
-  addCircleToMap(map);

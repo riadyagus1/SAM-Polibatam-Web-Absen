@@ -4,6 +4,16 @@ if(!isset($_SESSION['login'])){
     header("Location: index.php");
     exit;
 }
+
+include 'koneksi.php';
+$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+
+$sql= mysqli_query($koneksi, "SELECT `tbl_absen_header`.`tanggal_absen`, `tbl_absen_header`.`nim_nik_unit`, `tbl_absen_masuk`.`jam_masuk`, `tbl_absen_keluar`.`jam_keluar`, `tbl_absen_masuk`.`bukti_foto_masuk`, `tbl_absen_keluar`.`bukti_foto_keluar`, `tbl_absen_header`.`status`, `tbl_absen_keluar`.`lokasi_keluar`, `tbl_user`.`name`
+FROM `tbl_absen_header` 
+    LEFT JOIN `tbl_absen_masuk` ON `tbl_absen_masuk`.`id_header` = `tbl_absen_header`.`id` 
+    LEFT JOIN `tbl_absen_keluar` ON `tbl_absen_keluar`.`id_header` = `tbl_absen_header`.`id` 
+    LEFT JOIN `tbl_user` ON `tbl_absen_header`.`nim_nik_unit` = `tbl_user`.`nim_nik_unit`
+WHERE `tbl_absen_header`.`nim_nik_unit` = '$nim_nik_unit'");
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -223,21 +233,12 @@ if(!isset($_SESSION['login'])){
                                         </thead>
                                         <tbody>
                                         <?php
-                                            include 'koneksi.php';
-                                            $sql= mysqli_query($koneksi, "
-                                                SELECT tbl_absen_header.tanggal_absen,
-                                                tbl_absen_masuk.jam_masuk,
-                                                tbl_absen_keluar.jam_keluar, 
-                                                tbl_user.alamat,
-                                                tbl_absen_header.status FROM tbl_absen_header WHERE nim_nik_unit = '3311901049'
-                                                JOIN tbl_absen_masuk ON tbl_absen_header.id = tbl_absen_masuk.id_header 
-                                                JOIN tbl_absen_keluar ON tbl_absen_header.id = tbl_absen_keluar.id_header JOIN tbl_user ON tbl_absen_header.nim_nik_unit = tbl_user.nim_nik_unit");
                                             foreach($sql as $row){
                                             echo "<tr>
                                                     <td>" . $row['tanggal_absen'] . "</td>
                                                     <td>" . $row['jam_masuk'] . "</td>
                                                     <td>" . $row['jam_keluar'] . "</td>
-                                                    <td>" . $row['alamat'] . "</td>
+                                                    <td>" . $row['lokasi_keluar'] . "</td>
                                                     <td>" . $row['status'] . "</td>
                                                 </tr>";
                                             }

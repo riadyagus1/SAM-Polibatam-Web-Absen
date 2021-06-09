@@ -125,10 +125,14 @@ WHERE `tbl_absen_header`.`nim_nik_unit` = '$nim_nik_unit'");
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="../assets/images/users/9.png" alt="user" class="profile-pic me-2">
+                                <img src="<?php 
+                                include 'koneksi.php';
+                                $nim_nik_unit   = $_SESSION['nim_nik_unit'];
+                                $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
+                                $row            = mysqli_fetch_array($tbl_user);
+                                 echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
                                 <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
                             </a>
-                            <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>
                     </ul>
                 </div>

@@ -41,10 +41,28 @@ $row            = mysqli_fetch_array($tbl_user);
     <script>
         const citymap = {
           Polibatam: {
-            center: { lat: 1.118383, lng: 104.04846 }
+            center: { 
+                lat: 1.118383, 
+                lng: 104.04846 
+            }
           },
           WFH: {
-            center: { lat: <?php echo $row['address_latitude'];?>, lng: <?php echo $row['address_longitude'];?>  }
+            center: { 
+                lat: <?php 
+                if ($row['address_latitude'] != null)
+                    {
+                        echo $row['address_latitude'];
+                    } else {
+                        echo '0';
+                    }?>, 
+                lng: <?
+                    if ($row['address_longitude'] != null)
+                    {
+                        echo $row['address_longitude'];
+                    } else {
+                        echo '0';
+                    }?>
+            }
           }
         };
 

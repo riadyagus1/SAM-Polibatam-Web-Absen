@@ -254,23 +254,26 @@ $row            = mysqli_fetch_array($tbl_user);
                     <div class="form-group">
                     <label class="col-md-12 mb-0">Latitude</label>
                          <div class="col-md-12">
-                            <input type="text" id="lat" placeholder="Latitude" name="lat" class="form-control ps-0 form-control-line">
+                            <input type="text" id="lat" placeholder="Latitude" name="lat" readonly="readonly" class="form-control ps-0 form-control-line">
                         </div>
                     </div>
 
+                    <input type="hidden" value="<?php echo $_SESSION['nama'];?>" name="nama" class="form-control ps-0 form-control-line">
                     <input type="hidden" value="<?php echo $_SESSION['nim_nik_unit'];?>" name="nim" class="form-control ps-0 form-control-line">
 
                     <div class="form-group">
                     <label class="col-md-12 mb-0">Longitude</label>
                         <div class="col-md-12">
-                            <input type="text" id="lng" placeholder="Latitude" name="lng" class="form-control ps-0 form-control-line">
+                            <input type="text" id="lng" placeholder="Latitude" name="lng" readonly="readonly" class="form-control ps-0 form-control-line">
+                            <p>*Klik lokasi rumah anda di peta untuk mendapatkan Latitude dan Longitude</p>
                         </div>
                     </div>
 
                     <div class="form-group">
                     <label class="col-md-12 mb-0">Alamat</label>
                         <div class="col-md-12">
-                            <input type="text" id="Alamat" placeholder="Lokasi" name="address" class="form-control ps-0 form-control-line">
+                            <input type="text" id="address" placeholder="Alamat" name="address" class="form-control ps-0 form-control-line">
+                            <p>*Isi dengan alamat rumah anda</p>
                         </div>
                     </div>
 

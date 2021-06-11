@@ -4,12 +4,6 @@ if(!isset($_SESSION['login'])){
     header("Location: index.php");
     exit;
 }
-
-include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
-$tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
-$row            = mysqli_fetch_array($tbl_user);
-
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -181,17 +175,16 @@ $row            = mysqli_fetch_array($tbl_user);
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Profile</h3>
+                        <h3 class="page-title mb-0 p-0">Ajukan Jam Merdeka Bekerja</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="Home.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                                    <li class="breadcrumb-item"><a href="Profile.php">Profile</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Ajukan Jam Merdeka Bekerja</li>
                                 </ol>
                             </nav>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-4 align-self-center">
                     </div>
                 </div>
             </div>
@@ -205,170 +198,37 @@ $row            = mysqli_fetch_array($tbl_user);
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <!-- Row -->
                 <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-4 col-xlg-3 col-md-5">
-                        <div class="card">
-                            <div class="card-body profile-card">
-                                <center class="mt-4">
-                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-                                    <div id="profile-container">
-                                       <image id="profileImage" src="<?php echo $row['foto_profile']; ?>" />
-                                    </div>
-                                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
-
-                                    <style>
-                                        #imageUpload
-                                    {
-                                        display: none;
-                                    }
-
-                                    #profileImage
-                                    {
-                                        cursor: pointer;
-                                    }
-
-                                    #profile-container {
-                                        width: 150px;
-                                        height: 150px;
-                                        overflow: hidden;
-                                        -webkit-border-radius: 50%;
-                                        -moz-border-radius: 50%;
-                                        -ms-border-radius: 50%;
-                                        -o-border-radius: 50%;
-                                        border-radius: 50%;
-                                        &:hover {
-                                            background-color: rgba(0,0,0,.5);
-                                            z-index: 10000;
-                                            color: rgba(250,250,250,1);
-                                            transition: all .3s ease;
-                                          }
-                                          
-                                          span {
-                                            display: inline-flex;
-                                            padding: .2em;
-                                          }
-                                    }
-
-                                    #profile-container img {
-                                        width: 150px;
-                                        height: 150px;
-                                    }
-                                    </style>
-
-                                    <script>
-                                        $("#profileImage").click(function(e) {
-                                        $("#imageUpload").click();
-                                    });
-
-                                    function fasterPreview( uploader ) {
-                                        if ( uploader.files && uploader.files[0] ){
-                                              $('#profileImage').attr('src', 
-                                                 window.URL.createObjectURL(uploader.files[0]) );
-                                        }
-                                    }
-
-                                    $("#imageUpload").change(function(){
-                                        fasterPreview( this );
-                                    });
-                                    </script>
-                                    <h4 class="card-title mt-2"><?php echo $row['name'];?></h4>
-                                    <h6 class="card-subtitle"><?php echo $row['nim_nik_unit'];?></h6>
-                                    <h6 class="card-subtitle"><?php echo $row['jabatan'];?></h6><br>
-
-                                    <div class="col-md-6 col-4 align-self-center">
-                                        <div class="text-end upgrade-btn">
-                                            <a href="LokasiWFH.php"
-                                                class="btn btn-success" style="color:white;">Ganti Lokasi WFH</a>
-                                        </div>
-                                    </div>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-8 col-xlg-9 col-md-7">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form class="form-horizontal form-material mx-2" method="post" action="EditDataKaryawan-update.php">
-                                    <!-- Show Session Array
-                                    <?php
-                                    echo '<pre>';
-                                    var_dump($_SESSION);
-                                    echo '</pre>';
-                                    ?>
-                                    -->
+                                <h4 class="card-title">Ajukan Jam Merdeka Bekerja</h4>
+                                <form class="form-horizontal form-material mx-2" method="post" action="AjukanJMB-add.php">
                                     <div class="form-group">
-                                        <label class="col-md-12 mb-0">NIM</label>
+                                        <label class="col-md-12 mb-0">Jam Masuk</label>
                                         <div class="col-md-12">
-                                            <input type="text" value="<?php echo $row['nim_nik_unit'];?>"
-                                                class="form-control ps-0 form-control-line" disabled>
+                                            <input type="time" placeholder="Pilih Jam..." name="jam_masuk"
+                                                class="form-control ps-0 form-control-line">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-md-12 mb-0">Nama Lengkap</label>
+                                        <label class="col-md-12 mb-0">Jam Pulang</label>
                                         <div class="col-md-12">
-                                            <input type="text" value="<?php echo $row['name'];?>"
-                                                class="form-control ps-0 form-control-line" disabled>
+                                            <input type="time" placeholder="Pilih Jam..." name="jam_pulang"
+                                                class="form-control ps-0 form-control-line">
                                         </div>
                                     </div>
+                                    <input type="hidden" value="<?php echo $_SESSION['nim_nik_unit'];?>" name="nim" class="form-control ps-0 form-control-line">
                                     <div class="form-group">
-                                        <label class="col-md-12 mb-0">Jabatan</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value="<?php echo $row['jabatan'];?>"
-                                                class="form-control ps-0 form-control-line" disabled>
+                                        <div class="col-sm-12 d-flex">
+                                            <button class="btn btn-success mx-auto mx-md-0 text-white">Ajukan</button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Username</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value="<?php echo $row['username'];?>"
-                                                class="form-control ps-0 form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-12 mb-0">Email</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value="<?php echo $row['email'];?>"
-                                                class="form-control ps-0 form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-12">Lokasi WFH</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value="<?php 
-                                            if ($row['alamat'] != null){
-                                                echo $row['alamat'];
-                                            } else {
-                                                echo '*Lokasi WFH Belum Diajukan';
-                                            }?>"
-                                                class="form-control ps-0 form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                     <div class="form-group">
-                                        <label class="col-sm-12">Jam Kerja</label>
-                                        <div class="col-md-12">
-                                            <input type="text" value="<?php 
-                                            if ($row['jam_masuk'] != null && $row['jam_pulang'] != null){
-                                                echo $row['jam_masuk']; 
-                                                echo ' - '; 
-                                                echo $row['jam_pulang'];
-                                            } else {
-                                                echo '*Jam Merdeka Bekerja Belum Diajukan';
-                                            }?>"
-                                                class="form-control ps-0 form-control-line" disabled>
-                                        </div>
-                                    </div>
-                                    <a href="AjukanJMB.php" class="btn btn-info" style="color:white;">Ajukan Jam Mereka Bekerja</a>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
                 </div>
-                <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->

@@ -36,56 +36,71 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="../assets/plugins/gmaps/Geolocation/script.js"></script>
     <script>
+    navigator.geolocation.getCurrentPosition(function (p) {
+
+        var LatLng = new google.maps.LatLng(p.coords.latitude,p.coords.longitude);
+
+        var mapOptions = {
+            center: LatLng,
+            zoom: 16,
+            mapTypeId:  google.maps.MapTypeId.ROADMAP                      
+
+        };
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: LatLng,
+            map: map,
+            title: "<div style = 'height:60px;width:200px'><b>Lokasi Anda:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+        });
+
         const citymap = {
-          Polibatam: {
-            center: { 
-                lat: 1.118383, 
-                lng: 104.04846 
-            }
-          },
-          WFH: {
-            center: { 
-                lat: <?php 
-                if ($row['address_latitude'] != null)
+            Polibatam: {
+                center: { 
+                    lat: 1.118383, 
+                    lng: 104.04846 
+                }
+            },
+            WFH: {
+                center: { 
+                    lat: <?php 
+                    if ($row['address_latitude'] != null)
                     {
                         echo $row['address_latitude'];
                     } else {
                         echo '0';
                     }?>, 
-                lng: <?
+                    lng: <?
                     if ($row['address_longitude'] != null)
                     {
                         echo $row['address_longitude'];
                     } else {
                         echo '0';
                     }?>
+                }
             }
-          }
         };
 
-        function initMap() {
-          const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 16,
-            center: { lat: 1.118383, lng: 104.04846 },
-            mapTypeId: "roadmap",
-          });
-
-          for (const city in citymap) {
-            const cityCircle = new google.maps.Circle({
-              strokeColor: "#00FF00",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: "#00FF00",
-              fillOpacity: 0.5,
-              map,
-              center: citymap[city].center,
-              radius: 200,
+        for (const city in citymap) {
+            var cityCircle = new google.maps.Circle({
+                strokeColor: '#00FF00',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#00FF00',
+                fillOpacity: 0.5,
+                map: map,
+                center: citymap[city].center,
+                radius: 200
             });
-          }
         }
+
+        google.maps.event.addListener(marker, "click", function (e) {
+            var infoWindow = new google.maps.InfoWindow();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(map, marker);
+        });
+    });
     </script>
 </head>
 
@@ -223,7 +238,7 @@ $row            = mysqli_fetch_array($tbl_user);
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Absen Keluar</h3>
+                        <h3 class="page-title mb-0 p-0">Absen Keluar (Verifikasi Lokasi)</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -243,12 +258,8 @@ $row            = mysqli_fetch_array($tbl_user);
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div id="map" style="width:100%;height:650px;"></div>
-                <script
-                  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNJqakPdB3zozQKYUc-IFOMnokYiSRNH8&callback=initMap&libraries=&v=weekly"
-                  async
-                ></script>
                 <br>
-                <a href="#" class='btn btn-success' style="color:white;">Absen Keluar</a>
+                <a href="AbsenKeluar-foto.php" class='btn btn-success' style="color:white;">Lanjut</a>
                 <a href='Home.php' class='btn btn-danger' style="color:white;">Kembali</a> 
             </div>
                 
@@ -286,6 +297,8 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="js/custom.js"></script>
+    <!--Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNJqakPdB3zozQKYUc-IFOMnokYiSRNH8&callback=init"></script>
 </body>
 
 </html>

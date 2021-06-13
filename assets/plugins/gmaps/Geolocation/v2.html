@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>🌏 Google Maps Geolocation Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="container">
+      <div id="map" style="width:100%;height:100%;"></div>
+      <script>
+        navigator.geolocation.getCurrentPosition(function (p) {
+
+        var LatLng = new google.maps.LatLng(p.coords.latitude,p.coords.longitude);
+
+        var mapOptions = {
+            center: LatLng,
+            zoom: 16,
+            mapTypeId:  google.maps.MapTypeId.ROADMAP                      
+
+        };
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: LatLng,
+            map: map,
+            title: "<div style = 'height:60px;width:200px'><b>Lokasi Anda:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+        });
+
+        const citymap = {
+                  Polibatam: {
+                    center: { 
+                        lat: 1.118383, 
+                        lng: 104.04846 
+                    }
+                  }
+                };
+
+        for (const city in citymap) {
+        var cityCircle = new google.maps.Circle({
+                    strokeColor: '#00FF00',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#00FF00',
+                    fillOpacity: 0.5,
+                    map: map,
+                    center: citymap[city].center,
+                    radius: 200
+                  });
+      }
+
+        google.maps.event.addListener(marker, "click", function (e) {
+            var infoWindow = new google.maps.InfoWindow();
+            infoWindow.setContent(marker.title);
+            infoWindow.open(map, marker);
+        });
+      });
+      </script>
+    </main>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNJqakPdB3zozQKYUc-IFOMnokYiSRNH8&callback=init"></script>
+  </body>
+</html>

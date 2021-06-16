@@ -37,7 +37,7 @@ if(isset($_SESSION['login'])){
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="../assets/images/favicon100.png">
+	<link rel="icon" type="image/png" href="assets/images/favicon100.png">
 </head>
 <body>
 

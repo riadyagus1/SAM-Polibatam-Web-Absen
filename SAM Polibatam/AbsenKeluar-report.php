@@ -24,7 +24,7 @@ $row            = mysqli_fetch_array($tbl_user);
     <meta name="description"
         content="Monster Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>SAM Polibatam | Absen Masuk</title>
+    <title>SAM Polibatam | Absen Keluar</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monster-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" href="assets/images/favicon100.png">
@@ -37,7 +37,6 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="assets/plugins/gmaps/Geolocation/script.js"></script>
     <script>
         const citymap = {
           Polibatam: {
@@ -223,12 +222,12 @@ $row            = mysqli_fetch_array($tbl_user);
             <div class="page-breadcrumb">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="page-title mb-0 p-0">Absen Masuk (Verifikasi Foto)</h3>
+                        <h3 class="page-title mb-0 p-0">Absen Keluar (Report)</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="Home.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Absen Masuk</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Absen Keluar</li>
                                 </ol>
                             </nav>
                         </div>
@@ -242,43 +241,29 @@ $row            = mysqli_fetch_array($tbl_user);
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <video autoplay="true" id="player"></video>
-                <canvas id="canvas" width=320 height=240></canvas>
-                <br><br>
-                <style>
-                    .BtnCaptureTengah {
-                      text-align: center;
-                    }
-                </style>
-                <div class="BtnCaptureTengah">
-                    <button id="capture" class='btn btn-info' style="color:white;"><i class='fas fas fa-camera'></i> Ambil Foto</button>
-                </div>
-                <script>
-                  const player = document.getElementById('player');
-                  const canvas = document.getElementById('canvas');
-                  const context = canvas.getContext('2d');
-                  const captureButton = document.getElementById('capture');
-
-                  const constraints = {
-                    video: true,
-                  };
-
-                  captureButton.addEventListener('click', () => {
-                    // Draw the video frame to the canvas.
-                    context.drawImage(player, 0, 0, canvas.width, canvas.height);
-                  });
-
-                  // Attach the video stream to the video element and autoplay.
-                  navigator.mediaDevices.getUserMedia(constraints)
-                    .then((stream) => {
-                      player.srcObject = stream;
-                    });
-                </script>
-                <br>
-                <a href="#" class='btn btn-success' style="color:white;">Absen Masuk</a>
-                <a href='AbsenMasuk.php' class='btn btn-danger' style="color:white;">Kembali</a> 
-                <br><br>
-                <p>*Silahkan <code> Ambil Foto </code> terlebih dahulu sebelum menekan tombol Absen Masuk. <br>Jika foto yang diambil kurang bagus, Silahkan tekan <code> Ambil Foto </code> lagi untuk mengambil ulang foto</p>
+                <!-- column -->
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Report</h4>
+                                <form class="form-horizontal form-material mx-2" method="post" action="#">
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Apa saja yang anda lakukan hari ini?</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="Isi jawaban anda disini!" name="report"
+                                                class="form-control ps-0 form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" value="simpan"
+                                            class='btn btn-success' style="color:white;">Absen Keluar</button>
+                                        <a href='AbsenKeluar-foto.php'
+                                            class='btn btn-danger' style="color:white;">Kembali</a>         
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             </div>
                 
                                

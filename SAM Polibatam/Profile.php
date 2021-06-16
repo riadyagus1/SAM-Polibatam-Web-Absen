@@ -15,6 +15,10 @@ $row            = mysqli_fetch_array($tbl_user);
 <html dir="ltr" lang="en">
 
 <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="chart/setup.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -27,19 +31,11 @@ $row            = mysqli_fetch_array($tbl_user);
     <title>SAM Polibatam | Profile</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monster-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="../assets/images/favicon100.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon100.png">
+    <!-- Custom CSS -->
+    <link href="assets/plugins/chartist/dist/chartist.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link rel="stylesheet" type="text/css" href="../assets/plugins/DataTables/Bootstrap-4-4.1.1/css/dataTables.bootstrap4.min.css">
-    <script src="../assets/plugins/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/plugins/DataTables/Bootstrap-4-4.1.1/js/dataTables.responsive.min.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -77,14 +73,14 @@ $row            = mysqli_fetch_array($tbl_user);
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
 
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
 
                         </span>
                     </a>
@@ -190,8 +186,6 @@ $row            = mysqli_fetch_array($tbl_user);
                                 </ol>
                             </nav>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-4 align-self-center">
                     </div>
                 </div>
             </div>
@@ -403,9 +397,9 @@ $row            = mysqli_fetch_array($tbl_user);
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app-style-switcher.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>

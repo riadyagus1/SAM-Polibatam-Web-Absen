@@ -27,7 +27,7 @@ $row            = mysqli_fetch_array($tbl_user);
     <title>SAM Polibatam | Informasi</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monster-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="../assets/images/favicon100.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon100.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -67,14 +67,14 @@ $row            = mysqli_fetch_array($tbl_user);
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
 
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
 
                         </span>
                     </a>
@@ -198,7 +198,7 @@ $row            = mysqli_fetch_array($tbl_user);
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <img src="../assets/images/logoSAM.png" alt="Logo SAM Polibatam" style="width:250px;height:250px;display: block; margin-left: auto; margin-right: auto;"><br>
+                                <img src="assets/images/logoSAM.png" alt="Logo SAM Polibatam" style="width:250px;height:250px;display: block; margin-left: auto; margin-right: auto;"><br>
                                 <h3 align="center">APA ITU SAM POLIBATAM ?</h3>
 
                                 <p align="center">SAM Polibatam (Sistem Absensi Mobile) merupakan sebuah aplikasi yg berfungsi bagi para karyawan Politeknik Negeri Batam untuk  melakukan absensi.</p>
@@ -242,9 +242,9 @@ $row            = mysqli_fetch_array($tbl_user);
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app-style-switcher.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>

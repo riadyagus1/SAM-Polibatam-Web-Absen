@@ -27,7 +27,7 @@ $row            = mysqli_fetch_array($tbl_user);
     <title>SAM Polibatam | Absen Keluar</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/monster-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" href="../assets/images/favicon100.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon100.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -37,7 +37,6 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="../assets/plugins/gmaps/Geolocation/script.js"></script>
     <script>
         const citymap = {
           Polibatam: {
@@ -118,14 +117,14 @@ $row            = mysqli_fetch_array($tbl_user);
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/LogoHD.png" height="35" alt="homepage" class="dark-logo" />
 
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="../assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
+                            <img src="assets/images/TextHD.png" width="128" alt="homepage" class="dark-logo" />
 
                         </span>
                     </a>
@@ -275,10 +274,10 @@ $row            = mysqli_fetch_array($tbl_user);
                     });
                 </script>
                 <br>
-                <a href="#" class='btn btn-success' style="color:white;">Absen Keluar</a>
+                <a href="AbsenKeluar-report.php" class='btn btn-success' style="color:white;">Lanjut</a>
                 <a href='AbsenKeluar.php' class='btn btn-danger' style="color:white;">Kembali</a> 
                 <br><br>
-                <p>*Silahkan <code> Ambil Foto </code> terlebih dahulu sebelum menekan tombol Absen Keluar. <br>Jika foto yang diambil kurang bagus, Silahkan tekan <code> Ambil Foto </code> lagi untuk mengambil ulang foto</p>
+                <p>*Silahkan <code> Ambil Foto </code> terlebih dahulu sebelum menekan tombol Lanjut. <br>Jika foto yang diambil kurang bagus, Silahkan tekan <code> Ambil Foto </code> lagi untuk mengambil ulang foto</p>
             </div>
                 
                                
@@ -305,9 +304,9 @@ $row            = mysqli_fetch_array($tbl_user);
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="assets/plugins/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app-style-switcher.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>

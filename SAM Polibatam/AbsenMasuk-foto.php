@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
 
@@ -30,63 +30,14 @@ $row            = mysqli_fetch_array($tbl_user);
     <link rel="icon" type="image/png" href="assets/images/favicon100.png">
     <!-- Custom CSS -->
     <link href="css/style.min.css" rel="stylesheet">
+    <!-- Camera -->
+    <script type="text/javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.js "></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="assets/plugins/gmaps/Geolocation/script.js"></script>
-    <script>
-        const citymap = {
-          Polibatam: {
-            center: { 
-                lat: 1.118383, 
-                lng: 104.04846 
-            }
-          },
-          WFH: {
-            center: { 
-                lat: <?php 
-                if ($row['address_latitude'] != null)
-                    {
-                        echo $row['address_latitude'];
-                    } else {
-                        echo '0';
-                    }?>, 
-                lng: <?
-                    if ($row['address_longitude'] != null)
-                    {
-                        echo $row['address_longitude'];
-                    } else {
-                        echo '0';
-                    }?>
-            }
-          }
-        };
-
-        function initMap() {
-          const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 16,
-            center: { lat: 1.118383, lng: 104.04846 },
-            mapTypeId: "roadmap",
-          });
-
-          for (const city in citymap) {
-            const cityCircle = new google.maps.Circle({
-              strokeColor: "#00FF00",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: "#00FF00",
-              fillOpacity: 0.5,
-              map,
-              center: citymap[city].center,
-              radius: 200,
-            });
-          }
-        }
-    </script>
 </head>
 
 <body>
@@ -161,7 +112,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                             <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -241,44 +192,126 @@ $row            = mysqli_fetch_array($tbl_user);
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+            <!--  Source Cam: https://davidwalsh.name/browser-camera -->
             <div class="container-fluid">
-                <video autoplay="true" id="player"></video>
-                <canvas id="canvas" width=320 height=240></canvas>
-                <br><br>
                 <style>
-                    .BtnCaptureTengah {
-                      text-align: center;
-                    }
-                </style>
-                <div class="BtnCaptureTengah">
-                    <button id="capture" class='btn btn-info' style="color:white;"><i class='fas fas fa-camera'></i> Ambil Foto</button>
-                </div>
+                table, input {
+                    width: auto;
+                    font: 20px Calibri;
+                }
+                table, th, td, th {
+                    border: solid 1px #DDD;
+                    border-collapse: collapse;
+                    padding: 2px 3px;
+                    text-align: center;
+                    font-weight: normal;
+                }
+                #camBox{
+                    display:none;
+                    position:fixed;
+                    border:0;
+                    top:0;
+                    right:0;
+                    left:0;
+                    overflow-x:auto;
+                    overflow-y:hidden;
+                    z-index:9999;
+                    background-color:rgba(239,239,239,.9);
+                    width:100%;
+                    height:100%;
+                    padding-top:10px;
+                    text-align:center;
+                    cursor:pointer;
+                    -webkit-box-align:center;-webkit-box-orient:vertical;
+                    -webkit-box-pack:center;-webkit-transition:.2s opacity;
+                    -webkit-perspective:1000
+                }
+
+                .revdivshowimg{
+                    width:300px;
+                    top:0;
+                    padding:0;
+                    position:relative;
+                    margin:0 auto;
+                    display:block;
+                    background-color:#fff;
+                    webkit-box-shadow:6px 0 10px rgba(0,0,0,.2),-6px 0 10px rgba(0,0,0,.2);
+                    -moz-box-shadow:6px 0 10px rgba(0,0,0,.2),-6px 0 10px rgba(0,0,0,.2);
+                    box-shadow:6px 0 10px rgba(0,0,0,.2),-6px 0 10px rgba(0,0,0,.2);
+                    overflow:hidden;
+                    border-radius:3px;
+                    color:#17293c
+                }        
+            </style>
+                <center>
+                    <div id="camBox" style="width:100%;height:100%;">
+                        <div class="revdivshowimg" style="top:20%;text-align:center;margin:0 auto;">
+
+                            <div id="camera" style="height:auto;text-align:center;margin:0 auto;"></div>
+
+                            <p>
+                                <input type="button" value="OK" id="btAddPicture" 
+                                    onclick="addCamPicture()" /> 
+                                <input type="button" value="Cancel" 
+                                    onclick="document.getElementById('camBox').style.display = 'none';" />
+                            </p>
+                            <input type="hidden" id="rowid" /><input type="hidden" id="dataurl" />
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <table id="myTable">
+                            <tbody>
+                                <tr><th>Foto Kehadiran</th></tr>
+                                <tr>
+                                    <td>
+                                        <div id="div_alpha"></div>
+                                        <br>
+                                        <input type="button" class='btn btn-info' style="color:white;" value="Ambil Foto" id="alpha" 
+                                            onclick="takeSnapshot(this)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </center>
                 <script>
-                  const player = document.getElementById('player');
-                  const canvas = document.getElementById('canvas');
-                  const context = canvas.getContext('2d');
-                  const captureButton = document.getElementById('capture');
-
-                  const constraints = {
-                    video: true,
-                  };
-
-                  captureButton.addEventListener('click', () => {
-                    // Draw the video frame to the canvas.
-                    context.drawImage(player, 0, 0, canvas.width, canvas.height);
-                  });
-
-                  // Attach the video stream to the video element and autoplay.
-                  navigator.mediaDevices.getUserMedia(constraints)
-                    .then((stream) => {
-                      player.srcObject = stream;
+                    // CAMERA SETTINGS.
+                    Webcam.set({
+                        width: 220,
+                        height: 190,
+                        image_format: 'jpeg',
+                        jpeg_quality: 100
                     });
+                    Webcam.attach('#camera');
+
+                    takeSnapshot = function (oButton) {
+                        document.getElementById('camBox').style.display = 'block';
+                        document.getElementById('rowid').value = oButton.id
+                    }
+
+                    addCamPicture = function () {
+                        var rowid = document.getElementById('rowid').value;
+
+                        Webcam.snap(function (data_uri) {
+                            document.getElementById('div_' + rowid).innerHTML =
+                                '<img src="' + data_uri + '" id="" width="225px" height="250px" />';
+			    document.getElementById("imageSrc").value = data_uri;
+                        });
+
+                        document.getElementById('rowid').value = '';
+                        document.getElementById('camBox').style.display = 'none';       // HIDE THE POPUP DIALOG BOX.
+                    }
                 </script>
                 <br>
-                <a href="#" class='btn btn-success' style="color:white;">Absen Masuk</a>
-                <a href='AbsenMasuk.php' class='btn btn-danger' style="color:white;">Kembali</a> 
+		<form id="inAbsen" method="POST" action="AbsenMasuk-process.php">
+                	<button class='btn btn-success' style="color:white;">Absen Masuk</button>
+                	<a href='AbsenMasuk.php' class='btn btn-danger' style="color:white;">Kembali</a>
+			<input type="hidden" id="imageSrc" name="imageSrc" value="">
+		</form>
                 <br><br>
-                <p>*Silahkan <code> Ambil Foto </code> terlebih dahulu sebelum menekan tombol Absen Masuk. <br>Jika foto yang diambil kurang bagus, Silahkan tekan <code> Ambil Foto </code> lagi untuk mengambil ulang foto</p>
+                <p>*Silahkan <code> Ambil Foto </code> terlebih dahulu sebelum menekan tombol Lanjut. <br>Jika foto yang diambil kurang bagus, Silahkan tekan <code> Ambil Foto </code> lagi untuk mengambil ulang foto</p>
             </div>
                 
                                

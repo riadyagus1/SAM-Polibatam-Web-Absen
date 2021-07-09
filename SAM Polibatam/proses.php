@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(E_ALL ^ E_WARNING); 
+error_reporting(E_ALL ^ E_WARNING);
 $data = array(
     "username"      => $_POST['username'],
     "password"      => $_POST['password'],
@@ -13,40 +13,40 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = json_decode(curl_exec($ch));
 $array = json_decode(json_encode($result), true);
 
-foreach ($array as $val){
-    $nama = $val['name'];
-    $nim_nik_unit = $val['nim_nik_unit'];
-    $jabatan = $val['jabatan'];
-    $username = $val['username'];
-    $email = $val['email'];
+
+if($result->status == "success")  {
+	foreach ($array as $val){
+    		$nama = $val['name'];
+    		$nim_nik_unit = $val['nim_nik_unit'];
+    		$jabatan = $val['jabatan'];
+    		$username = $val['username'];
+    		$email = $val['email'];
+    		$id = $val['id'];
+   	}
+
+
+    	$_SESSION['nama-user'] = $nama;
+    	$_SESSION['user'] = true;
+    	$_SESSION['nim_nik_unit-user'] = $nim_nik_unit;
+    	$_SESSION['jabatan-user'] = $jabatan;
+    	$_SESSION['username-user'] = $username;
+    	$_SESSION['email-user'] = $email;
+    	$_SESSION['id-user'] = $id;
+
+    	include 'koneksi.php';
+    	include 'HeaderAdd.php';
+    	$query="INSERT INTO `tbl_user` (`nim_nik_unit`, `username`, `name`, `email`, `jabatan`, `alamat`, `foto_profile`, `address_latitude`, `address_longitude`, `jam_masuk`, `jam_pulang`) VALUES ('$nim_nik_unit', '$username', '$nama', '$email', '$jabatan', NULL, 'http://absen.polibatam.ac.id/sam_api/Image/profile_photos/people.png', NULL, NULL, NULL, NULL)";
+
+    	if(mysqli_query($koneksi, $query)) {
+		addHeader($nim_nik_unit);
+    	}
+
+	header('Location: Home.php');
 }
 
-echo "<pre>";
-print_r($array);
-echo "</pre>";
-
-echo "Status    : ".$array['status'].'<br>';
-echo "Message   : ".$array['message'].'<br>';
-echo "Nama : ".$nama.'<br>';
-
-if($result->status == "success") {
-	// session_start();
-    //$_SESSION['username'] = $username; 
-    $_SESSION['nama'] = $nama;
-    $_SESSION['login'] = true;
-    $_SESSION['nim_nik_unit'] = $nim_nik_unit;
-	// $_SESSION['jabatan'] = $jabatan;
-
-    include 'koneksi.php';
-    $query="INSERT INTO `tbl_user` (`nim_nik_unit`, `username`, `name`, `email`, `jabatan`, `alamat`, `foto_profile`, `address_latitude`, `address_longitude`, `jam_masuk`, `jam_pulang`) VALUES ('$nim_nik_unit', '$username', '$nama', '$email', '$jabatan', NULL, 'http://absen.polibatam.ac.id/sam_api/Image/profile_photos/220315.PNG', NULL, NULL, NULL, NULL)";
-    mysqli_query($koneksi, $query);
-
-    header('Location: Home.php');
-}
 else {
     $_SESSION['message'] = $array['message'];
     $_SESSION['status'] = $array['status'];
-    //echo "<script> alert('password salah');</script>";
     header('Location: index.php');
-    } 
+}
 ?>

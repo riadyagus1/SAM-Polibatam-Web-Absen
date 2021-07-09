@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
 
@@ -47,13 +47,11 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <script src="http://maps.google.com/maps/api/js?key=AIzaSyCNJqakPdB3zozQKYUc-IFOMnokYiSRNH8"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyCNJqakPdB3zozQKYUc-IFOMnokYiSRNH8"></script>
     <script>
         var marker;
-  
         function taruhMarker(peta, posisiTitik){
-            
             if( marker ){
               marker.setPosition(posisiTitik);
             } else {
@@ -65,8 +63,16 @@ $row            = mysqli_fetch_array($tbl_user);
 
             document.getElementById("lat").value = posisiTitik.lat();
             document.getElementById("lng").value = posisiTitik.lng();
-            
         }
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+ 		 infoWindow.setPosition(pos);
+  		infoWindow.setContent(
+    		browserHasGeolocation
+      			? "Error: The Geolocation service failed."
+      			: "Error: Your browser doesn't support geolocation."
+  	);
+  		infoWindow.open(peta);
+	}
 
         function initialize() {
         var propertiPeta = {
@@ -74,16 +80,50 @@ $row            = mysqli_fetch_array($tbl_user);
             zoom:16,
             mapTypeId:google.maps.MapTypeId.ROADMAP
         };
-        
+
         var peta = new google.maps.Map(document.getElementById("googleMap"), propertiPeta);
-  
+
           google.maps.event.addListener(peta, 'click', function(event) {
             taruhMarker(this, event.latLng);
           });
 
+	infoWindow = new google.maps.InfoWindow();
+  	const locationButton = document.createElement("button");
+  	locationButton.textContent = "Dapatkan Lokasi Terkini";
+  	locationButton.classList.add("custom-map-control-button");
+  	peta.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  	locationButton.addEventListener("click", () => {
+    	// Try HTML5 geolocation.
+    	if (navigator.geolocation) {
+      		navigator.geolocation.getCurrentPosition(
+        	(position) => {
+          		const pos = {
+            			lat: position.coords.latitude,
+            			lng: position.coords.longitude,
+          		};
+          	infoWindow.setPosition(pos);
+          	infoWindow.setContent("Lokasi Ditemukan!");
+          	infoWindow.open(peta);
+          	peta.setCenter(pos);
+		var marker = new google.maps.Marker({
+                	position: pos,
+                	map: peta,
+		});
+		document.getElementById("lat").value = pos.lat;
+            	document.getElementById("lng").value = pos.lng;
+         },
+        () => {
+          handleLocationError(true, infoWindow, peta.getCenter());
         }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, peta.getCenter());
+    }
+  });
+}
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+     google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </head>
 
@@ -159,7 +199,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                         </li>
                     </ul>
@@ -258,8 +298,8 @@ $row            = mysqli_fetch_array($tbl_user);
                         </div>
                     </div>
 
-                    <input type="hidden" value="<?php echo $_SESSION['nama'];?>" name="nama" class="form-control ps-0 form-control-line">
-                    <input type="hidden" value="<?php echo $_SESSION['nim_nik_unit'];?>" name="nim" class="form-control ps-0 form-control-line">
+                    <input type="hidden" value="<?php echo $_SESSION['nama-user'];?>" name="nama" class="form-control ps-0 form-control-line">
+                    <input type="hidden" value="<?php echo $_SESSION['nim_nik_unit-user'];?>" name="nim" class="form-control ps-0 form-control-line">
 
                     <div class="form-group">
                     <label class="col-md-12 mb-0">Longitude</label>

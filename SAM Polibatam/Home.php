@@ -1,24 +1,26 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
+
+$dateUnformatted = date('Ymd');
+$headerID = $nim_nik_unit.'-'.$dateUnformatted;
 
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="chart/setup.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -115,7 +117,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                             <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -210,18 +212,39 @@ $row            = mysqli_fetch_array($tbl_user);
                                 <h4 class="card-title">Progress Presensi Hari Ini</h4>
                                 <div class="text-end">
                                     <h2 id="datetime" class='font-light mb-0'>Date Now</h2>
-                                    <span class="text-muted">Anda Sudah Absen Hari Ini
-                                        <!--
-                                        <?php 
-                                        $persenAbsen = "50%";
-                                        if ($persenAbsen = "100%") {
+                                    <span class="text-muted">
+                                        <?php
+					$dateuf = date('Ymd');
+					$hID = $nim_nik_unit . "-" . $dateuf;
+					$result = mysqli_fetch_array(mysqli_query($koneksi, "SELECT status from tbl_absen_header WHERE id='$hID';"));
+					$status = $result[0];
+
+				        if ($status == "Hadir WFO" || $status == "Hadir WFH") {
                                           echo "Anda Sudah Absen Hari Ini";
-                                        } elseif ($persenAbsen = "50%") {
-                                          echo "Anda Belum Absen Pulang";
-                                        } else {
-                                          echo "Anda Belum Absen Masuk & Keluar!";
-                                        }?>
-                                        -->
+					  $persenAbsen = "100%";
+                                        }
+
+					elseif ($status == "Izin") {
+                                          echo "Anda Sudah Izin";
+					  $persenAbsen = "100%";
+                                        }
+
+					elseif ($status == "Libur") {
+                                          echo "Hari Libur";
+					  $persenAbsen = "0%";
+                                        }
+
+					elseif ($status == "Kurang") {
+                                          echo "Anda Belum Absen Masuk atau Pulang";
+					  $persenAbsen = "50%";
+                                        }
+
+					else {
+                                          echo "Anda Belum Absen Masuk & Pulang";
+					  $persenAbsen = "0%";
+                                        }
+
+					?>
                                     </span>
                                         <script>
                                         const dayNames = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -234,11 +257,11 @@ $row            = mysqli_fetch_array($tbl_user);
                                         document.getElementById("datetime").innerHTML = dayNames[day] + ", " + dd + " " + monthNames[mm] + " " + yy;
                                         </script>
                                 </div>
-                                <span class="text-success">100%</span>
+				<?php echo "<span class='text-success'>" .$persenAbsen. "</span>"; ?>
                                 <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0"
-                                        aria-valuemax="100"></div>
+			           <?php
+				    	echo "<div class='progress-bar bg-success' role='progressbar' style='width:$persenAbsen; height: 6px;' aria-valuenow='100' aria-valuemin='0' aria-valuemax='100'></div>";
+				   ?>
                                 </div>
                             </div>
                         </div>
@@ -250,16 +273,27 @@ $row            = mysqli_fetch_array($tbl_user);
                             <div class="card-body">
                                 <h4 class="card-title">Presentase Kehadiran</h4>
                                 <div class="text-end">
-                                <a href="History.php" class="btn btn-info btn-circle-lg btn-circle" style="position: absolute; top: 40%; left: 5%; color:white;"><i class="fa fa-list"></i></a>
-                                    <h2 class='font-light mb-0'>9 / 10</h2>
+				<a href="History.php" class="btn btn-info btn-circle-lg btn-circle" style="position: absolute; top: 30%; left: 5%; color:white;"><i class="fa fa-list"></i></a>
+                                    <h2 class='font-light mb-0'>
+					<?php
+						$total = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) from tbl_absen_header where nim_nik_unit='$nim_nik_unit' AND status != 'Libur';"));
+						$presensi = mysqli_fetch_array(mysqli_query($koneksi, "SELECT COUNT(*) from tbl_absen_header where nim_nik_unit='$nim_nik_unit' AND status LIKE 'Hadir%';"));
+						$rasio = $presensi[0] ."/". $total[0];
+						$rasioPersen = ($presensi[0] / $total[0]) * 100;
+						$rasioPersenString = $rasioPersen .'%';
+						echo $rasio;
+					?>
+				   </h2>
                                     <span class="text-muted">Jumlah Kehadiran / Hari Kerja</span>
                                 </div>
-                                <span class="text-info">90%</span>
+				<?php
+                                	echo '<span class="text-info">'.$rasioPersenString.'</span>';
+				?>
                                 <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar"
-                                        style="width: 90%; height: 6px;" aria-valuenow="25" aria-valuemin="0"
-                                        aria-valuemax="100"></div>
-                                </div>
+				<?php
+				       echo "<div class='progress-bar bg-info' role='progressbar' style='width:$rasioPersenString; height: 6px;' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div>";
+                                ?>
+				</div>
                             </div>
                         </div>
                     </div>
@@ -275,8 +309,32 @@ $row            = mysqli_fetch_array($tbl_user);
                             <div class="card-body">
                                 <h4 class="card-title">Absen Kehadiran</h4>
                                 <h6 class="card-subtitle">Silahkan lakukan absen kehadiran dengan menekan tombol dibawah ini:</h6>
-                            <a href='AbsenMasuk.php' class='btn btn-info' style="color:white;"><i class='fas fa-sign-in-alt'></i> Absen Masuk</a>
-                            <a href='AbsenKeluar.php' class='btn btn-info' style="color:white;"><i class='fas fa-sign-out-alt'></i> Absen Keluar</a>
+				<?php
+					$statusAbsenMasuk = mysqli_query($koneksi, "SELECT jam_masuk from tbl_absen_masuk where id_header='$headerID';");
+
+					if (mysqli_num_rows($statusAbsenMasuk) == 1) {
+						$hasilAbsen = mysqli_fetch_array($statusAbsenMasuk);
+						echo "<button id='AMasuk' onclick='window.location.href = \"AbsenMasuk.php\"' class='btn btn-info' style='color:white; margin-top:2.5%;' disabled><i class='fas fa-sign-in-alt'></i> $hasilAbsen[0]</button>";
+					}
+
+					else {
+						echo "<button id='AMasuk' onclick='window.location.href = \"AbsenMasuk.php\"' class='btn btn-info' style='color:white; margin-top:2.5%;'><i class='fas fa-sign-in-alt'></i> Absen Masuk</button>";
+					}
+				?>
+
+				<?php
+					$statusAbsenPulang = mysqli_query($koneksi, "SELECT jam_keluar from tbl_absen_keluar where id_header='$headerID';");
+
+					if (mysqli_num_rows($statusAbsenPulang) == 1) {
+						$AbsPulang = mysqli_fetch_array($statusAbsenPulang);
+						echo "<button id='APulang' onclick='window.location.href = \"AbsenKeluar.php\"' class='btn btn-info' style='color:white; margin-top:2.5%;' disabled><i class='fas fa-sign-out-alt'></i> $AbsPulang[0]</button>";
+					}
+
+					else {
+						echo "<button id='APulang' onclick='window.location.href = \"AbsenKeluar.php\"' class='btn btn-info' style='color:white; margin-top:2.5%;'><i class='fas fa-sign-out-alt'></i> Absen Keluar</button>";
+					}
+				?>
+
                             </div>
                         </div>
 

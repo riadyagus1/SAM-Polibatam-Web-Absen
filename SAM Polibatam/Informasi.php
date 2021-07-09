@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
 
@@ -110,7 +110,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                             <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>

@@ -1,20 +1,22 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
+
 
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <head>
+    <script src="maps/loadLoc.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -36,75 +38,17 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-    <script>
-    navigator.geolocation.getCurrentPosition(function (p) {
-
-        var LatLng = new google.maps.LatLng(p.coords.latitude,p.coords.longitude);
-
-        var mapOptions = {
-            center: LatLng,
-            zoom: 16,
-            mapTypeId:  google.maps.MapTypeId.ROADMAP                      
-
-        };
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: LatLng,
-            map: map,
-            title: "<div style = 'height:60px;width:200px'><b>Lokasi Anda:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
-        });
-
-        const citymap = {
-            Polibatam: {
-                center: { 
-                    lat: 1.118383, 
-                    lng: 104.04846 
-                }
-            },
-            WFH: {
-                center: { 
-                    lat: <?php 
-                    if ($row['address_latitude'] != null)
-                    {
-                        echo $row['address_latitude'];
-                    } else {
-                        echo '0';
-                    }?>, 
-                    lng: <?
-                    if ($row['address_longitude'] != null)
-                    {
-                        echo $row['address_longitude'];
-                    } else {
-                        echo '0';
-                    }?>
-                }
-            }
-        };
-
-        for (const city in citymap) {
-            var cityCircle = new google.maps.Circle({
-                strokeColor: '#00FF00',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#00FF00',
-                fillOpacity: 0.5,
-                map: map,
-                center: citymap[city].center,
-                radius: 200
-            });
-        }
-
-        google.maps.event.addListener(marker, "click", function (e) {
-            var infoWindow = new google.maps.InfoWindow();
-            infoWindow.setContent(marker.title);
-            infoWindow.open(map, marker);
-        });
-    });
-    </script>
 </head>
 
-<body>
+<?php
+	if ($row[7] != NULL && $row[8] != NULL) {
+		echo '<body onload=initMap('.$row[7].','.$row[8].')>';
+	}
+
+	else {
+		echo '<body onload=initMap(0,0)>';
+	}
+?>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -176,7 +120,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                             <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -259,8 +203,8 @@ $row            = mysqli_fetch_array($tbl_user);
             <div class="container-fluid">
                 <div id="map" style="width:100%;height:650px;"></div>
                 <br>
-                <a href="AbsenMasuk-foto.php" class='btn btn-success' style="color:white;">Lanjut</a>
-                <a href='Home.php' class='btn btn-danger' style="color:white;">Kembali</a> 
+                <button onclick="window.location.href='AbsenMasuk-foto.php'" class='btn btn-success' style="color:white; margin-right: 1%;" id="btnLanjut">Lanjut</a>
+                <button onclick="window.location.href ='Home.php'" class='btn btn-danger' style="color:white;">Kembali</a>
             </div>
                 
                                

@@ -1,19 +1,17 @@
 <?php
 session_start();
-if(isset($_SESSION['login'])){
-    header("Location: Home.php");
-    exit;
-}elseif(!isset($_SESSION['status'])){
-	$warning = "";
-}else if($_SESSION['status'] == "error"){
+
+if(isset($_SESSION['user'])){
+    	header("Location: Home.php");
+	exit;
+}
+
+else if ($_SESSION['status'] == "error"){
 	$warning = "<div class='card bg-danger mb-3' style='margin-top: -25px; height:30px'>
 	<span class='text-light justify-center mx-auto text-justify mt-1'>Username / Password Salah</span>
 	</div>";
-}elseif("username" !== "agus.3311901002" || "username" !== "tasya.3311901018" || "username" !== "kevin.3311901049" || "username" !== "hamdaniari" || "username" !== "franstio.3312001012" || "username" !== "juliaadriana" || "username" !== "ningsih" || "username" !== "dewi"){
-	$warning = "<div class='card bg-danger mb-3' style='margin-top: -25px; height:30px'>
-	<span class='text-light justify-center mx-auto text-justify mt-1'>Anda Tidak Memiliki Hak Akses</span>
-	</div>";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

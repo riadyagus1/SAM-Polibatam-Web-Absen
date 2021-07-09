@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
 
@@ -37,55 +37,6 @@ $row            = mysqli_fetch_array($tbl_user);
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script>
-        const citymap = {
-          Polibatam: {
-            center: { 
-                lat: 1.118383, 
-                lng: 104.04846 
-            }
-          },
-          WFH: {
-            center: { 
-                lat: <?php 
-                if ($row['address_latitude'] != null)
-                    {
-                        echo $row['address_latitude'];
-                    } else {
-                        echo '0';
-                    }?>, 
-                lng: <?
-                    if ($row['address_longitude'] != null)
-                    {
-                        echo $row['address_longitude'];
-                    } else {
-                        echo '0';
-                    }?>
-            }
-          }
-        };
-
-        function initMap() {
-          const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 16,
-            center: { lat: 1.118383, lng: 104.04846 },
-            mapTypeId: "roadmap",
-          });
-
-          for (const city in citymap) {
-            const cityCircle = new google.maps.Circle({
-              strokeColor: "#00FF00",
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: "#00FF00",
-              fillOpacity: 0.5,
-              map,
-              center: citymap[city].center,
-              radius: 200,
-            });
-          }
-        }
-    </script>
 </head>
 
 <body>
@@ -160,7 +111,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                             <ul class="dropdown-menu show" aria-labelledby="navbarDropdown"></ul>
                         </li>
@@ -246,21 +197,19 @@ $row            = mysqli_fetch_array($tbl_user);
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Report</h4>
-                                <form class="form-horizontal form-material mx-2" method="post" action="#">
+				<form class="form-horizontal form-material mx-2" method="post" action="AbsenKeluar-foto.php">
                                     <div class="form-group">
                                         <label class="col-md-12 mb-0">Apa saja yang anda lakukan hari ini?</label>
                                         <div class="col-md-12">
                                             <input type="text" placeholder="Isi jawaban anda disini!" name="report"
-                                                class="form-control ps-0 form-control-line">
+                                                class="form-control ps-0 form-control-line" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" value="simpan"
-                                            class='btn btn-success' style="color:white;">Absen Keluar</button>
-                                        <a href='AbsenKeluar-foto.php'
-                                            class='btn btn-danger' style="color:white;">Kembali</a>         
+                                        <button class='btn btn-success' style="color:white;">Lanjut</button>
+                                        <a href='AbsenKeluar.php'class='btn btn-danger' style="color:white;">Kembali</a>
                                     </div>
-                                </form>
+				</form>
                             </div>
                         </div>
                     </div>

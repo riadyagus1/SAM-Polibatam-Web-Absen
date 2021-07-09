@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
 $row            = mysqli_fetch_array($tbl_user);
 
@@ -15,10 +15,9 @@ $row            = mysqli_fetch_array($tbl_user);
 <html dir="ltr" lang="en">
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="chart/setup.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -116,7 +115,7 @@ $row            = mysqli_fetch_array($tbl_user);
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="<?php echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                         </li>
                     </ul>
@@ -210,8 +209,10 @@ $row            = mysqli_fetch_array($tbl_user);
                                     <div id="profile-container">
                                        <image id="profileImage" src="<?php echo $row['foto_profile']; ?>" />
                                     </div>
-                                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
-
+					<form id="frm1" action="https://absen.polibatam.ac.id/Upload_Profile.php" method="post" enctype="multipart/form-data">
+					    <input type="hidden" name="nnk" value="<?= $row['nim_nik_unit']?>">
+	                                    <input id="imageUpload" name="imageUpload" type="file" placeholder="Photo" accept="image/png, image/jpeg" required="" capture>
+				    	</form>
                                     <style>
                                         #imageUpload
                                     {
@@ -238,7 +239,7 @@ $row            = mysqli_fetch_array($tbl_user);
                                             color: rgba(250,250,250,1);
                                             transition: all .3s ease;
                                           }
-                                          
+
                                           span {
                                             display: inline-flex;
                                             padding: .2em;
@@ -255,6 +256,10 @@ $row            = mysqli_fetch_array($tbl_user);
                                         $("#profileImage").click(function(e) {
                                         $("#imageUpload").click();
                                     });
+					$("#imageUpload").change(function(e) {
+						alert("Changing Profile Photo!");
+						$("#frm1").submit();
+					});
 
                                     function fasterPreview( uploader ) {
                                         if ( uploader.files && uploader.files[0] ){

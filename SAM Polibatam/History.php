@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(!isset($_SESSION['login'])){
+if(!isset($_SESSION['user'])){
     header("Location: index.php");
     exit;
 }
 
 include 'koneksi.php';
-$nim_nik_unit   = $_SESSION['nim_nik_unit'];
+$nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
 
 $sql= mysqli_query($koneksi, "SELECT `tbl_absen_header`.`tanggal_absen`, `tbl_absen_header`.`nim_nik_unit`, `tbl_absen_masuk`.`jam_masuk`, `tbl_absen_keluar`.`jam_keluar`, `tbl_absen_masuk`.`bukti_foto_masuk`, `tbl_absen_keluar`.`bukti_foto_keluar`, `tbl_absen_header`.`status`, `tbl_absen_keluar`.`lokasi_keluar`, `tbl_user`.`name`
 FROM `tbl_absen_header` 
@@ -19,10 +19,9 @@ WHERE `tbl_absen_header`.`nim_nik_unit` = '$nim_nik_unit'");
 <html dir="ltr" lang="en">
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="chart/setup.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -128,13 +127,13 @@ WHERE `tbl_absen_header`.`nim_nik_unit` = '$nim_nik_unit'");
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="<?php 
+                                <img src="<?php
                                 include 'koneksi.php';
-                                $nim_nik_unit   = $_SESSION['nim_nik_unit'];
+                                $nim_nik_unit   = $_SESSION['nim_nik_unit-user'];
                                 $tbl_user       = mysqli_query($koneksi, "select * from tbl_user where nim_nik_unit='$nim_nik_unit'");
                                 $row            = mysqli_fetch_array($tbl_user);
                                  echo $row['foto_profile']; ?>" alt="user" class="profile-pic me-2">
-                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama'];?></span>
+                                <span class="mr-2-d-non d-lg-inline text-white small"><?= $_SESSION['nama-user'];?></span>
                             </a>
                         </li>
                     </ul>
